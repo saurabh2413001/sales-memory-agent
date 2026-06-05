@@ -204,7 +204,7 @@ st.markdown(
         font-weight: 800 !important;
     }
 
-    /* ── Primary button ── */
+    /* ── Main content primary button ── */
     .stButton > button {
         background: var(--accent) !important;
         color: #ffffff !important;
@@ -225,20 +225,70 @@ st.markdown(
     }
     .stButton > button:active { transform: translateY(0) !important; }
 
-    /* sidebar seed button override — subtle ghost style */
+    /* ── Sidebar nav buttons — all items ── */
     section[data-testid="stSidebar"] .stButton > button {
-        background: transparent !important;
-        color: #6b7280 !important;
-        border: 1px solid #e5e7eb !important;
-        box-shadow: none !important;
-        font-weight: 500 !important;
-        font-size: .82rem !important;
-        padding: .45rem 1rem !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
         text-align: left !important;
+        padding: 9px 12px !important;
+        border-radius: 8px !important;
+        font-size: .875rem !important;
+        font-weight: 500 !important;
+        background: transparent !important;
+        color: #4b5563 !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        transition: background .15s, color .15s !important;
     }
     section[data-testid="stSidebar"] .stButton > button:hover {
         background: #f3f4f6 !important;
+        color: #111827 !important;
+        border: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    section[data-testid="stSidebar"] .stButton > button:focus,
+    section[data-testid="stSidebar"] .stButton > button:focus-visible,
+    section[data-testid="stSidebar"] .stButton > button:active {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    /* ── Active nav item (primary type) ── */
+    section[data-testid="stSidebar"] .stButton > button[kind="primary"] {
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+        font-weight: 600 !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    section[data-testid="stSidebar"] .stButton > button[kind="primary"]:hover,
+    section[data-testid="stSidebar"] .stButton > button[kind="primary"]:focus,
+    section[data-testid="stSidebar"] .stButton > button[kind="primary"]:focus-visible {
+        background: #dbeafe !important;
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    /* ── Seed / tools button ── */
+    section[data-testid="stSidebar"] .stButton > button[kind="secondary"] {
+        background: transparent !important;
+        color: #6b7280 !important;
+        border: none !important;
+        font-size: .82rem !important;
+        padding: 7px 12px !important;
+    }
+    section[data-testid="stSidebar"] .stButton > button[kind="secondary"]:hover {
+        background: #f3f4f6 !important;
         color: #374151 !important;
+        border: none !important;
         box-shadow: none !important;
         transform: none !important;
     }
@@ -267,6 +317,41 @@ st.markdown(
         border-radius: var(--radius-sm) !important;
         color: var(--text) !important;
         box-shadow: var(--shadow-sm) !important;
+    }
+    /* dropdown arrow — black */
+    .stSelectbox svg {
+        fill: #111827 !important;
+        color: #111827 !important;
+        stroke: #111827 !important;
+    }
+    /* dropdown popup container */
+    [data-baseweb="popover"],
+    [data-baseweb="select"] [role="listbox"],
+    ul[role="listbox"] {
+        background: #ffffff !important;
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-sm) !important;
+        box-shadow: var(--shadow-md) !important;
+    }
+    /* each option row */
+    [role="option"],
+    li[role="option"] {
+        background: #ffffff !important;
+        color: #111827 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: .875rem !important;
+        padding: 8px 14px !important;
+    }
+    [role="option"]:hover,
+    li[role="option"]:hover {
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+    }
+    /* selected option highlight */
+    [aria-selected="true"] {
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+        font-weight: 600 !important;
     }
     label, .stSelectbox label, .stTextInput label, .stTextArea label {
         color: var(--text-muted) !important;
@@ -501,21 +586,33 @@ st.markdown(
     /* Health card */
     .health-row {
         display: flex;
-        gap: .6rem;
+        gap: .75rem;
         flex-wrap: wrap;
-        margin: .5rem 0 1rem;
+        margin: .6rem 0 1.3rem;
     }
     .health-chip {
         display: flex;
         align-items: center;
-        gap: .4rem;
+        gap: 9px;
         background: var(--white);
         border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: .3rem .85rem;
-        font-size: .78rem;
-        font-weight: 600;
+        border-radius: 10px;
+        padding: .65rem 1.1rem;
+        font-size: .875rem;
+        font-weight: 500;
+        color: #374151;
         box-shadow: var(--shadow-sm);
+        min-width: 140px;
+    }
+    .health-chip strong {
+        font-weight: 700;
+        color: #111827 !important;
+    }
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
     }
 
     /* Scrollbar */
@@ -860,7 +957,7 @@ def _generic_email(company: str) -> str:
 
 
 def seed_button() -> None:
-    if st.sidebar.button("🌱  Seed Demo Data", use_container_width=True):
+    if st.sidebar.button("🌱  Seed Demo Data", use_container_width=True, key="seed_btn"):
         try:
             result = api_post("/seed")
             st.sidebar.success(f"✓ Seeded {result['created_interactions']} interactions.")
@@ -880,68 +977,79 @@ PAGES = {
 }
 
 NAV_ITEMS = [
-    ("Dashboard",        "📊", "Overview & stats"),
-    ("Log Interaction",  "📝", "Record a meeting"),
-    ("Sales Brief",      "📄", "Generate briefing"),
-    ("Follow-up Email",  "✉️",  "Write personalised email"),
-    ("Before vs After",  "⚡", "Compare with/without memory"),
-    ("Memory Inspector", "🔍", "Browse memory store"),
+    ("Dashboard",        "📊"),
+    ("Log Interaction",  "📝"),
+    ("Sales Brief",      "📄"),
+    ("Follow-up Email",  "✉️"),
+    ("Before vs After",  "⚡"),
+    ("Memory Inspector", "🔍"),
 ]
+
+# ── Init session state ──
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "Dashboard"
 
 # ── Sidebar brand ──
 st.sidebar.markdown(
     """
-    <div style="padding: 20px 16px 4px;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-        <div style="width:34px;height:34px;background:#eff6ff;border-radius:9px;
-                    display:flex;align-items:center;justify-content:center;font-size:17px;">🧠</div>
+    <div style="padding:20px 4px 8px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;background:#eff6ff;border-radius:10px;
+                    display:flex;align-items:center;justify-content:center;font-size:18px;
+                    flex-shrink:0;">🧠</div>
         <div>
           <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;
-                      font-size:.95rem;color:#111827;letter-spacing:-.3px;">Sales Memory</div>
-          <div style="font-size:.68rem;color:#9ca3af;letter-spacing:.02em;">Powered by Hindsight</div>
+                      font-size:.97rem;color:#111827;letter-spacing:-.3px;line-height:1.2;">
+            Sales Memory</div>
+          <div style="font-size:.68rem;color:#9ca3af;margin-top:1px;">
+            Powered by Hindsight</div>
         </div>
       </div>
     </div>
+    <div class="nav-divider"></div>
     """,
     unsafe_allow_html=True,
 )
 
-st.sidebar.markdown('<div class="nav-divider"></div>', unsafe_allow_html=True)
-
-# ── Hidden real radio (drives state) ──
-page = st.sidebar.radio("Navigation", list(PAGES.keys()), label_visibility="collapsed")
-
-# ── Visual nav items ──
+# ── Nav group label ──
 st.sidebar.markdown('<div class="nav-group-label">Main Menu</div>', unsafe_allow_html=True)
 
-for key, icon, desc in NAV_ITEMS:
-    is_active = page == key
-    active_cls = " active" if is_active else ""
-    st.sidebar.markdown(
-        f"""
-        <div class="nav-item{active_cls}">
-          <div class="nav-icon">{icon}</div>
-          <div class="nav-label">{key}</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+# ── Clickable nav buttons ──
+for key, icon in NAV_ITEMS:
+    is_active = st.session_state.current_page == key
 
-st.sidebar.markdown('<div class="nav-divider" style="margin-top:12px;"></div>', unsafe_allow_html=True)
+    # Active item: styled via markdown (non-clickable visual) — button overlaid via CSS trick
+    # We render a real st.button per item, then style it to look like a nav row
+    btn_type = "primary" if is_active else "secondary"
 
-# ── Seed button ──
+    # Label with icon baked in
+    label = f"{icon}  {key}"
+
+    if st.sidebar.button(
+        label,
+        key=f"nav_{key}",
+        use_container_width=True,
+        type=btn_type,
+    ):
+        st.session_state.current_page = key
+        st.rerun()
+
+st.sidebar.markdown('<div class="nav-divider" style="margin-top:8px;"></div>', unsafe_allow_html=True)
+
+# ── Tools section ──
 st.sidebar.markdown('<div class="nav-group-label">Tools</div>', unsafe_allow_html=True)
 seed_button()
 
 # ── Footer ──
 st.sidebar.markdown(
     f"""
-    <div style="padding: 14px 16px 8px; margin-top: 8px;">
-      <div style="font-size:.7rem;color:#9ca3af;">Backend endpoint</div>
+    <div style="padding:14px 4px 8px;margin-top:4px;">
+      <div style="font-size:.68rem;color:#9ca3af;margin-bottom:4px;">Backend endpoint</div>
       <div class="backend-badge"><span class="status-live"></span>{API_URL}</div>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
-PAGES[page]()
+# ── Render active page ──
+PAGES[st.session_state.current_page]()
