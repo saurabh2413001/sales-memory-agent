@@ -151,7 +151,7 @@ st.markdown(
     h2 { font-size: 1.25rem !important; font-weight: 700 !important; }
     h3 { font-size: 1.05rem !important; font-weight: 600 !important; }
 
-    /* ── Section heading (replaces tiny uppercase label) ── */
+    /* ── Section heading ── */
     .section-label {
         font-family: 'Plus Jakarta Sans', sans-serif;
         font-size: 1rem;
@@ -231,7 +231,7 @@ st.markdown(
         color: #9ca3af !important;
     }
 
-    /* ── Selectbox trigger ── */
+    /* ── Selectbox ── */
     .stSelectbox > div > div {
         background: var(--white) !important;
         border: 1px solid var(--border) !important;
@@ -240,20 +240,17 @@ st.markdown(
         font-size: .9rem !important;
         box-shadow: var(--shadow-sm) !important;
     }
-    /* Selected value text */
     .stSelectbox [data-baseweb="select"] div,
     .stSelectbox [data-baseweb="select"] span,
     .stSelectbox [data-baseweb="select"] input {
         color: #111827 !important;
         background: transparent !important;
     }
-    /* Arrow icon — black */
     .stSelectbox svg {
         fill: #111827 !important;
         color: #111827 !important;
         stroke: #111827 !important;
     }
-    /* Dropdown popup */
     [data-baseweb="popover"] > div,
     [data-baseweb="menu"],
     ul[role="listbox"] {
@@ -262,7 +259,6 @@ st.markdown(
         border-radius: var(--radius-sm) !important;
         box-shadow: var(--shadow-md) !important;
     }
-    /* Option rows */
     [role="option"],
     li[role="option"],
     [data-baseweb="menu"] li {
@@ -293,32 +289,44 @@ st.markdown(
         letter-spacing: .01em !important;
     }
 
-    /* ── Expanders ── */
+    /* ══════════════════════════════════════════════
+       EXPANDER — full fix: header + content + hover
+       ══════════════════════════════════════════════ */
+
+    /* Header shell */
     .streamlit-expanderHeader {
         background: #ffffff !important;
         border: 1px solid var(--border) !important;
         border-radius: var(--radius-sm) !important;
-        color: #111827 !important;
-        font-family: 'Inter', sans-serif !important;
-        font-size: .9rem !important;
-        font-weight: 600 !important;
         padding: .75rem 1rem !important;
         box-shadow: var(--shadow-sm) !important;
+        transition: background .15s !important;
     }
     .streamlit-expanderHeader:hover {
         background: #f9fafb !important;
     }
-    /* expander header text and svg always dark */
+    /* All text/svg inside header — always stay readable */
+    .streamlit-expanderHeader,
     .streamlit-expanderHeader p,
     .streamlit-expanderHeader span,
-    .streamlit-expanderHeader div {
+    .streamlit-expanderHeader div,
+    .streamlit-expanderHeader strong,
+    .streamlit-expanderHeader em,
+    .streamlit-expanderHeader small {
         color: #111827 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-size: .9rem !important;
+        font-weight: 600 !important;
     }
-    .streamlit-expanderHeader svg {
-        fill: #111827 !important;
-        stroke: #111827 !important;
-        color: #111827 !important;
+    .streamlit-expanderHeader svg,
+    .streamlit-expanderHeader svg path,
+    .streamlit-expanderHeader svg polyline {
+        fill: #374151 !important;
+        stroke: #374151 !important;
+        color: #374151 !important;
     }
+
+    /* Content panel */
     .streamlit-expanderContent {
         background: #ffffff !important;
         border: 1px solid var(--border) !important;
@@ -326,7 +334,8 @@ st.markdown(
         border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important;
         padding: 1.1rem !important;
     }
-    /* ALL text inside expander content — force dark */
+    /* Every descendant inside content — pinned to dark text, never black flash */
+    .streamlit-expanderContent,
     .streamlit-expanderContent *,
     .streamlit-expanderContent p,
     .streamlit-expanderContent span,
@@ -335,8 +344,65 @@ st.markdown(
     .streamlit-expanderContent td,
     .streamlit-expanderContent th,
     .streamlit-expanderContent strong,
-    .streamlit-expanderContent label {
+    .streamlit-expanderContent em,
+    .streamlit-expanderContent small,
+    .streamlit-expanderContent label,
+    .streamlit-expanderContent a {
+        color: #374151 !important;
+        background-color: transparent !important;
+    }
+    /* Headings inside expander slightly bolder */
+    .streamlit-expanderContent h1,
+    .streamlit-expanderContent h2,
+    .streamlit-expanderContent h3,
+    .streamlit-expanderContent h4 {
         color: #111827 !important;
+    }
+    /* Prevent any hover/focus state on expander content from changing text colour */
+    .streamlit-expanderContent *:hover,
+    .streamlit-expanderContent *:focus,
+    .streamlit-expanderContent *:active {
+        color: #374151 !important;
+        background-color: transparent !important;
+    }
+    /* Override for interactive elements inside expander */
+    .streamlit-expanderContent button,
+    .streamlit-expanderContent .stButton > button {
+        color: #ffffff !important;
+        background-color: var(--accent) !important;
+    }
+    .streamlit-expanderContent .stButton > button:hover {
+        color: #ffffff !important;
+        background-color: var(--accent-dark) !important;
+    }
+    /* Also target newer Streamlit expander wrappers */
+    [data-testid="stExpander"] > div > div {
+        background: #ffffff !important;
+    }
+    [data-testid="stExpander"] summary,
+    [data-testid="stExpander"] summary *,
+    [data-testid="stExpander"] summary p,
+    [data-testid="stExpander"] summary span {
+        color: #111827 !important;
+        background: transparent !important;
+    }
+    [data-testid="stExpander"] summary:hover,
+    [data-testid="stExpander"] summary:hover * {
+        color: #111827 !important;
+        background: #f9fafb !important;
+    }
+    [data-testid="stExpander"] > div > div > div,
+    [data-testid="stExpander"] > div > div > div *,
+    [data-testid="stExpander"] > div > div > div p,
+    [data-testid="stExpander"] > div > div > div span,
+    [data-testid="stExpander"] > div > div > div div {
+        color: #374151 !important;
+        background-color: transparent !important;
+    }
+    [data-testid="stExpander"] > div > div > div *:hover,
+    [data-testid="stExpander"] > div > div > div *:focus {
+        color: #374151 !important;
+        background-color: transparent !important;
     }
 
     /* ── Alerts ── */
@@ -349,40 +415,69 @@ st.markdown(
     .stInfo    { background: var(--accent-light) !important; border: 1px solid #bfdbfe !important; border-radius: var(--radius-sm) !important; color: #1e40af !important; }
     .stInfo    * { color: #1e40af !important; }
 
-    /* ── Dataframe — full white bg, dark text ── */
+    /* ══════════════════════════════════════════════
+       DATAFRAME — lighter header text + no click flash
+       ══════════════════════════════════════════════ */
     .stDataFrame {
         border-radius: var(--radius) !important;
         border: 1px solid var(--border) !important;
         box-shadow: var(--shadow-sm) !important;
         overflow: hidden !important;
     }
-    /* dataframe header */
+    /* Column headings — medium grey, not jet black */
     [data-testid="stDataFrame"] thead th,
     [data-testid="stDataFrame"] th {
-        background: #f8fafc !important;
-        color: #111827 !important;
+        background: #f0f4fa !important;
+        color: #4b5563 !important;
         font-family: 'Inter', sans-serif !important;
-        font-size: .875rem !important;
+        font-size: .8rem !important;
         font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: .06em !important;
         border-bottom: 2px solid var(--border) !important;
         padding: 10px 14px !important;
     }
-    /* dataframe cells */
+    /* Cells */
     [data-testid="stDataFrame"] tbody td,
     [data-testid="stDataFrame"] td {
         background: #ffffff !important;
-        color: #111827 !important;
+        color: #374151 !important;
         font-size: .875rem !important;
         padding: 9px 14px !important;
         border-bottom: 1px solid #f3f4f6 !important;
     }
+    /* Hover row */
     [data-testid="stDataFrame"] tbody tr:hover td {
-        background: #f8fafc !important;
+        background: #f5f8ff !important;
+        color: #374151 !important;
     }
-    /* glide table (newer streamlit) */
+    /* Click / active state — prevent black flash */
+    [data-testid="stDataFrame"] tbody tr:active td,
+    [data-testid="stDataFrame"] tbody td:active,
+    [data-testid="stDataFrame"] thead th:active,
+    [data-testid="stDataFrame"] th:active {
+        background: #e8effc !important;
+        color: #374151 !important;
+    }
+    /* Glide / newer Streamlit table */
     [data-testid="glideDataEditor"] *,
-    .glide-data-grid *,
-    canvas { color: #111827 !important; }
+    .glide-data-grid * {
+        color: #374151 !important;
+    }
+    /* Sort arrow icons inside headers */
+    [data-testid="stDataFrame"] thead th svg,
+    [data-testid="stDataFrame"] th svg {
+        fill: #6b7280 !important;
+        stroke: #6b7280 !important;
+        color: #6b7280 !important;
+    }
+    /* Selected cell highlight */
+    [data-testid="stDataFrame"] td[aria-selected="true"],
+    [data-testid="stDataFrame"] th[aria-selected="true"] {
+        background: #eff6ff !important;
+        color: #1d4ed8 !important;
+        outline: 2px solid #bfdbfe !important;
+    }
 
     /* ── Code blocks ── */
     .stCode, pre, code {
@@ -405,7 +500,6 @@ st.markdown(
 
     /* ─── Custom components ─── */
 
-    /* Page header */
     .page-header {
         display: flex;
         align-items: flex-start;
@@ -439,7 +533,6 @@ st.markdown(
         font-size: .9rem;
     }
 
-    /* Tags / pills */
     .tag {
         display: inline-block;
         background: #eff6ff;
@@ -453,7 +546,6 @@ st.markdown(
         letter-spacing: .01em;
     }
 
-    /* Status dot */
     .status-dot {
         display: inline-block;
         width: 8px; height: 8px;
@@ -465,7 +557,6 @@ st.markdown(
     .dot-blue  { background: #2563eb; }
     .dot-red   { background: #dc2626; }
 
-    /* Activity card */
     .activity-card {
         background: #ffffff;
         border: 1px solid var(--border);
@@ -492,7 +583,6 @@ st.markdown(
     .op-reflect{ background: #fffbeb; color: #b45309 !important; border: 1px solid #fde68a; }
     .op-other  { background: #f3f4f6; color: #4b5563 !important; border: 1px solid #e5e7eb; }
 
-    /* Compare columns */
     .compare-header {
         font-size: .78rem;
         font-weight: 700;
@@ -506,7 +596,6 @@ st.markdown(
     .compare-bad  { background: #fef2f2; color: #991b1b !important; border: 1px solid #fecaca; }
     .compare-good { background: #f0fdf4; color: #166534 !important; border: 1px solid #bbf7d0; }
 
-    /* Health chips — bigger, clearer */
     .health-row {
         display: flex;
         gap: .75rem;
@@ -530,7 +619,6 @@ st.markdown(
     .health-chip span { color: #374151 !important; }
     .health-chip strong { font-weight: 700; color: #111827 !important; }
 
-    /* Nav custom items (legacy, unused now but keep for safety) */
     .nav-item {
         display: flex; align-items: center; gap: 10px;
         padding: 9px 12px; border-radius: 8px;
@@ -559,7 +647,6 @@ st.markdown(
     .status-live { display: inline-block; width: 6px; height: 6px;
         border-radius: 50%; background: #22c55e; flex-shrink: 0; }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -929,11 +1016,9 @@ NAV_ITEMS = [
     ("Memory Inspector", "🔍"),
 ]
 
-# ── Init session state ──
 if "current_page" not in st.session_state:
     st.session_state.current_page = "Dashboard"
 
-# ── Sidebar brand ──
 st.sidebar.markdown(
     """
     <div style="padding:20px 4px 8px;">
@@ -955,20 +1040,12 @@ st.sidebar.markdown(
     unsafe_allow_html=True,
 )
 
-# ── Nav group label ──
 st.sidebar.markdown('<div class="nav-group-label">Main Menu</div>', unsafe_allow_html=True)
 
-# ── Clickable nav buttons ──
 for key, icon in NAV_ITEMS:
     is_active = st.session_state.current_page == key
-
-    # Active item: styled via markdown (non-clickable visual) — button overlaid via CSS trick
-    # We render a real st.button per item, then style it to look like a nav row
     btn_type = "primary" if is_active else "secondary"
-
-    # Label with icon baked in
     label = f"{icon}  {key}"
-
     if st.sidebar.button(
         label,
         key=f"nav_{key}",
@@ -980,11 +1057,9 @@ for key, icon in NAV_ITEMS:
 
 st.sidebar.markdown('<div class="nav-divider" style="margin-top:8px;"></div>', unsafe_allow_html=True)
 
-# ── Tools section ──
 st.sidebar.markdown('<div class="nav-group-label">Tools</div>', unsafe_allow_html=True)
 seed_button()
 
-# ── Footer ──
 st.sidebar.markdown(
     f"""
     <div style="padding:14px 4px 8px;margin-top:4px;">
@@ -995,5 +1070,4 @@ st.sidebar.markdown(
     unsafe_allow_html=True,
 )
 
-# ── Render active page ──
 PAGES[st.session_state.current_page]()
